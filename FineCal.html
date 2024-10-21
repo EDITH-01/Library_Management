@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fine Calculation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="AddForm.html">Add Book</a></li>
+            <li><a href="UpdateForm.html">Update Book</a></li>
+            <li><a href="Reservation.html">Reservation</a></li>
+            <li><a href="ViewBook.html">View Book</a></li>
+            <li><a href="FineCal.html">Fine Calculation</a></li>
+        </ul>
+    </nav>
+    <div class="form-container">
+
+    
+        <h1>Fine Calculation for Delayed Submission</h1>
+        <form action="calculateFine.php" method="POST">
+            <label for="submission_date">Submission Date:</label>
+            <input type="date" id="submission_date" name="submission_date" required><br><br>
+
+            <label for="return_date">Return Date:</label>
+            <input type="date" id="return_date" name="return_date" required><br><br>
+
+            <button type="submit" class="submit-btn">Calculate Fine</button>
+        </form>
+    </div>
+</body>
+</html>

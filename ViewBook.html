@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Book Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="AddForm.html">Add Book</a></li>
+            <li><a href="UpdateForm.html">Update Book</a></li>
+            <li><a href="Reservation.html">Reservation</a></li>
+            <li><a href="ViewBook.html">View Book</a></li>
+            <li><a href="FineCal.html">Fine Calculation</a></li>
+        </ul>
+    </nav>
+    <div class="form-container">
+    
+    
+        <h1>View Book Details</h1>
+        <form action="viewBook.php" method="POST">
+            <label for="book_id">Enter Book ID:</label>
+            <input type="number" id="book_id" name="book_id" required><br><br>
+
+            <button type="submit" class="submit-btn">View Book</button>
+        </form>
+    </div>
+</body>
+</html>
