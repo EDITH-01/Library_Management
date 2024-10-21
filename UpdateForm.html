@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,24 +20,57 @@
     <div class="form-container">
         <h1>Update or Delete Book</h1>
         <form action="updateBook.php" method="POST">
-            <input type="hidden" name="id" value="<?php echo $_GET['id']; ?>" />
+            <input type="hidden" name="id" value="" />
 
             <label for="title">Book Title:</label>
-            <input type="text" id="title" name="title" value="<?php echo $_GET['title']; ?>" required><br><br>
+            <input type="text" id="title" name="title" value="" required><br><br>
 
             <label for="author">Author:</label>
-            <input type="text" id="author" name="author" value="<?php echo $_GET['author']; ?>" required><br><br>
+            <input type="text" id="author" name="author" value="" required><br><br>
 
             <label for="genre">Genre:</label>
-            <input type="text" id="genre" name="genre" value="<?php echo $_GET['genre']; ?>" required><br><br>
+            <input type="text" id="genre" name="genre" value="" required><br><br>
 
             <label for="year">Publication Year:</label>
-            <input type="number" id="year" name="year" value="<?php echo $_GET['year']; ?>" required><br><br>
+            <input type="number" id="year" name="year" value="" required><br><br>
 
             <button type="submit" name="update" class="submit-btn">Update Book</button>
             <button type="submit" name="delete" class="delete-btn">Delete Book</button>
         </form>
         <a href="Reservation.html">reservation_date</a>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Book</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav>
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="AddForm.html">Add Book</a></li>
+            <li><a href="UpdateForm.html">Update Book</a></li>
+            <li><a href="Reservation.html">Reservation</a></li>
+            <li><a href="ViewBook.html">View Book</a></li>
+            <li><a href="FineCal.html">Fine Calculation</a></li>
+        </ul>
+    </nav>
+
+    <div class="form-container">
+
+        <h1>Update Book</h1>
+
+        <!-- Form to enter the book ID -->
+        <form method="POST" action="updateBook.php">
+            <label for="book_id">Enter Book ID:</label>
+            <input type="number" id="book_id" name="book_id" required>
+            <button type="submit" name="fetch_book" class="submit-btn">Fetch Book Details</button>
+        </form>
     </div>
 </body>
 </html>

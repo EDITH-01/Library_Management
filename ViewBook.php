@@ -5,59 +5,147 @@ $username = "root";  // Update with your database username
 $password = "";      // Update with your database password
 $dbname = "library_db";  // Update with your database name
 
-// // Create connection
+// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// // Check connection
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// // Get book ID from the form submission
-// $bookId = $_POST['book_id'];  // Assuming the form input has the name "book_id"
+// Initialize the book variable
+$book = null;
 
-// // Prepare and execute SQL query to retrieve the book
-// $sql = "SELECT * FROM books WHERE id = '$bookId'";
-// $result = $conn->query($sql);
+// Check if the form was submitted and if the book_id is set
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_id'])) {
+    // Get book ID from the form submission
+    $bookId = $_POST['book_id'];  
 
-// if ($result->num_rows > 0) {
-//     // Output data of each row
-//     while($row = $result->fetch_assoc()) {
-//         echo "Title: " . $row["title"] . "<br>";
-//         echo "Author: " . $row["author"] . "<br>";
-//         echo "Genre: " . $row["genre"] . "<br>";
-//         echo "Year: " . $row["year"] . "<br>";
-//     }
-// } else {
-//     echo "No book found with ID: $bookId";
-// }
+    // Prepare the SQL statement to fetch the book details
+    $stmt = $conn->prepare("SELECT * FROM books WHERE id = ?");
+    $stmt->bind_param("i", $bookId);  // "i" indicates the parameter is an integer
 
-// // Close connection
-// $conn->close();
-//----------------------------
+    // Execute the query
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-// Prepare the SQL statement
-$stmt = $conn->prepare("SELECT * FROM books WHERE id = ?");
-$stmt->bind_param("i", $bookId);  // "i" means the parameter is an integer
-
-// Execute the query
-$stmt->execute();
-$result = $stmt->get_result();
-
-// Check if a book is found
-if ($result->num_rows > 0) {
-    // Output data of each row
-    while ($row = $result->fetch_assoc()) {
-        echo "Title: " . $row["title"] . "<br>";
-        echo "Author: " . $row["author"] . "<br>";
-        echo "Genre: " . $row["genre"] . "<br>";
-        echo "Year: " . $row["year"] . "<br>";
+    // Check if a book is found
+    if ($result->num_rows > 0) {
+        // Fetch the book details
+        $book = $result->fetch_assoc();
+    } else {
+        $book = false;  // No book found
     }
-} else {
-    echo "No book found with ID: $bookId";
+
+    // Close the statement
+    $stmt->close();
 }
 
-// Close connection
-$stmt->close();
+// Fetch all existing books for display
+$booksQuery = "SELECT * FROM books";
+$booksResult = $conn->query($booksQuery);
+
+// Close the database connection
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Book Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light background color */
+        }
+        nav {
+            background-color: #343a40; /* Dark background for navbar */
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .submit-btn {
+            width: 100%;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Library Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="AddForm.html">Add Book</a></li>
+                <li class="nav-item"><a class="nav-link" href="UpdateForm.html">Update Book</a></li>
+                <li class="nav-item"><a class="nav-link" href="Reservation.html">Reservation</a></li>
+                <li class="nav-item"><a class="nav-link" href="ViewBook.html">View Book</a></li>
+                <li class="nav-item"><a class="nav-link" href="FineCal.html">Fine Calculation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="form-container">
+        <h1>View Book Details</h1>
+        <form action="viewBook.php" method="POST">
+            <div class="form-group">
+                <label for="book_id">Enter Book ID:</label>
+                <input type="number" id="book_id" name="book_id" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary submit-btn">View Book</button>
+        </form>
+    </div>
+
+    <div class="table-container">
+        <div class="container">
+            <h2>Existing Books</h2>
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                        <th>Year</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if ($booksResult && $booksResult->num_rows > 0): ?>
+                        <?php while ($row = $booksResult->fetch_assoc()): ?>
+                            <tr>
+                                <td><?php echo htmlspecialchars($row['id']); ?></td>
+                                <td><?php echo htmlspecialchars($row['title']); ?></td>
+                                <td><?php echo htmlspecialchars($row['author']); ?></td>
+                                <td><?php echo htmlspecialchars($row['genre']); ?></td>
+                                <td><?php echo htmlspecialchars($row['year']); ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <tr>
+                            <td colspan="5" class="text-center">No books found.</td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
+
