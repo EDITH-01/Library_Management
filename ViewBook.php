@@ -15,8 +15,9 @@ if ($conn->connect_error) {
 
 // Initialize the book variable
 $book = null;
+$reservedBook = null;
 
-// Check if the form was submitted and if the book_id is set
+// Check if the form was submitted for book details
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_id'])) {
     // Get book ID from the form submission
     $bookId = $_POST['book_id'];  
@@ -35,6 +36,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['book_id'])) {
         $book = $result->fetch_assoc();
     } else {
         $book = false;  // No book found
+    }
+
+    // Close the statement
+    $stmt->close();
+}
+
+// Check if the form was submitted for reserved book details
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['reservation_id'])) {
+    // Get reservation ID from the form submission
+    $reservationId = $_POST['reservation_id'];
+
+    // Prepare the SQL statement to fetch the reserved book details
+    $stmt = $conn->prepare("SELECT * FROM reservations WHERE id = ?");
+    $stmt->bind_param("i", $reservationId);  // "i" indicates the parameter is an integer
+
+    // Execute the query
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    // Check if a reserved book is found
+    if ($result->num_rows > 0) {
+        // Fetch the reserved book details
+        $reservedBook = $result->fetch_assoc();
+    } else {
+        $reservedBook = false;  // No reserved book found
     }
 
     // Close the statement
@@ -112,6 +138,17 @@ $conn->close();
         </form>
     </div>
 
+    <div class="form-container">
+        <h2>View Reserved Book</h2>
+        <form action="viewBook.php" method="POST">
+            <div class="form-group">
+                <label for="reservation_id">Enter Reservation ID:</label>
+                <input type="number" id="reservation_id" name="reservation_id" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary submit-btn">View Reserved Book</button>
+        </form>
+    </div>
+
     <div class="table-container">
         <div class="container">
             <h2>Existing Books</h2>
@@ -146,6 +183,33 @@ $conn->close();
         </div>
     </div>
 
+    <!-- Display the reserved book details if found -->
+    <?php if ($reservedBook): ?>
+        <div class="table-container">
+            <div class="container">
+                <h2>Reserved Book Details</h2>
+                <table class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Reservation ID</th>
+                            <th>Book ID</th>
+                            <th>Member ID</th>
+                            <th>Reserved Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><?php echo htmlspecialchars($reservedBook['id']); ?></td>
+                            <td><?php echo htmlspecialchars($reservedBook['book_id']); ?></td>
+                            <td><?php echo htmlspecialchars($reservedBook['member_id']); ?></td>
+                            <td><?php echo htmlspecialchars($reservedBook['reserved_date']); ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php elseif ($reservedBook === false): ?>
+        <div class="alert alert-danger text-center">No reserved book found for the given Reservation ID.</div>
+    <?php endif; ?>
 </body>
 </html>
-

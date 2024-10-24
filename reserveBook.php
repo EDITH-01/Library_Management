@@ -1,16 +1,38 @@
 <?php
-// Connect to the database
+// Connect to the MySQL server
 $servername = "localhost";
 $username = "root";  // Update with your database username
 $password = "";      // Update with your database password
-$dbname = "library_db";  // Update with your database name
 
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+$conn = new mysqli($servername, $username, $password);
 
 // Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
+}
+
+// Create database if it doesn't exist
+$dbname = "library_db";
+$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
+if ($conn->query($sql) !== TRUE) {
+    die("Error creating database: " . $conn->error);
+}
+
+// Select the database
+$conn->select_db($dbname);
+
+// Create reservations table if it doesn't exist
+$table_sql = "CREATE TABLE IF NOT EXISTS reservations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT NOT NULL,
+    user_name VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    reservation_date DATE NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)";
+if ($conn->query($table_sql) !== TRUE) {
+    die("Error creating table: " . $conn->error);
 }
 
 // Get form data
