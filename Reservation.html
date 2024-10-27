@@ -10,53 +10,61 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
+        /* Custom Background */
         body {
-            background-color: #f8f9fa;
+            background-image: url('https://wallpaperaccess.com/full/5487865.jpg'); /* Replace with your image path */
+            background-size: cover; /* Ensures the image covers the entire page */
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Keeps the background fixed while scrolling */
+            background-color: rgba(0, 0, 0, 0.7); /* Dark overlay color for readability */
+            background-blend-mode: overlay;
+            color: white; /* Text color for better readability on dark background */
         }
-
-        nav {
-            background-color: #343a40;
-            padding: 10px 0;
+        .navbar {
+            background-color: #343a40; /* Dark background for navbar */
         }
-
-        .nav-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            text-align: center;
-        }
-
-        .nav-list li {
-            display: inline;
-            margin: 0 15px;
-        }
-
-        .nav-list li a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        .nav-list li a:hover {
-            text-decoration: underline;
-        }
-
         .form-container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent for a darkened effect */
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
-
+        .card {
+            transition: transform 0.3s; /* Animation effect */
+        }
+        .card:hover {
+            transform: scale(1.05); /* Scale up on hover */
+        }
+        .get-started-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .get-started-btn:hover {
+            background-color: #0056b3;
+        }
         h1 {
             text-align: center;
             margin-bottom: 20px;
         }
-
         .submit-btn {
             width: 100%;
+        }
+        .submit-btn {
+            width: 100%;
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -106,7 +114,7 @@
             <button type="submit" class="btn btn-primary submit-btn">Reserve Book</button>
         </form>
 
-        <a href="FineCal.html" class="btn btn-link mt-3">Fine Calculation</a>
+        <!-- <a href="FineCal.html" class="btn btn-link mt-3">Fine Calculation</a> -->
     </div>
 
     <!-- jQuery for interactive styling -->

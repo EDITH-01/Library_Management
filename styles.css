@@ -1,54 +1,21 @@
-/* General body styling */
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+    background-image: url('C:\xampp\htdocs\Library\image\th.jpg'); /* Replace with your image path */
+    background-size: cover; /* Ensures the image covers the entire page */
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Keeps the background fixed while scrolling */
+    background-color: rgba(248, 249, 250, 0.8); /* Light overlay color for readability */
+    background-blend-mode: overlay;
 }
-
-/* Navigation bar styling */
-nav {
-    background-color: #333;
-    padding: 10px 0;
+.navbar {
+    background-color: #343a40; /* Dark background for navbar */
 }
-
-.nav-list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
+.card {
+    transition: transform 0.3s; /* Animation effect */
 }
-
-.nav-list li {
-    margin: 0 15px;
+.card:hover {
+    transform: scale(1.05); /* Scale up on hover */
 }
-
-.nav-list li a {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px 15px;
-    display: block;
-}
-
-.nav-list li a:hover {
-    background-color: #555;
-    border-radius: 5px;
-}
-
-/* Content section styling */
-.content {
-    text-align: center;
-    padding: 50px;
-}
-
-.content h1 {
-    color: #333;
-    font-size: 36px;
-}
-
-.content p {
-    color: #666;
-    font-size: 18px;
+.welcome-container {
+    margin-bottom: 50px;
 }
